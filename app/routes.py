@@ -35,7 +35,7 @@ def subscribe():
     }
 
     if group_id:
-        payload["groups"] = [group_id]
+        payload["groups"] = [int(group_id)]
 
     response = requests.post(
         "https://connect.mailerlite.com/api/subscribers",
