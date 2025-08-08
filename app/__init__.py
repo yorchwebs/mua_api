@@ -9,12 +9,21 @@ from app.routes import main_bp
 
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(main_bp)
 
+    # Habilita CORS para todas las rutas (puedes limitar dominios si lo deseas)
     CORS(app)
 
-    # Ejemplo de carga de variable (verifica que no falle)
+    # Configura claves desde entorno
     app.config["MAILERLITE_API_KEY"] = config("MAILERLITE_API_KEY", default="")
-    app.config["MAILERLITE_GROUP_ID"] = config("MAILERLITE_GROUP_ID", default="")  # noqa: E501
+    app.config["MAILERLITE_GROUP_ID"] = config("MAILERLITE_GROUP_ID", default="")  # noqa E501
+
+    # Verifica que no falten las claves críticas
+    if not app.config["MAILERLITE_API_KEY"]:
+        app.logger.warning("MAILERLITE_API_KEY está vacío o no definido.")
+    if not app.config["MAILERLITE_GROUP_ID"]:
+        app.logger.warning("MAILERLITE_GROUP_ID está vacío o no definido.")
+
+    # Registra las rutas
+    app.register_blueprint(main_bp)
 
     return app

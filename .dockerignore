@@ -1,19 +1,33 @@
-__pycache__
-
-*.pyc
-
+# Archivos y carpetas Python
+__pycache__/
+*.py[cod]
 *.pyo
-
 *.pyd
 
+# Entornos virtuales
 venv/
-
 .venv/
 
-pytest.ini
-
-tests/
-
-.gitignore
-
+# Archivos de configuración que no necesitas en producción
 .env
+.env.*  # Por si usas .env.development, .env.test, etc.
+*.ini
+*.toml  # Si usas pytest.toml o pyproject.toml para config local
+
+# Tests y coverage
+tests/
+coverage/
+.coverage
+htmlcov/
+
+# Git y otros metadatos
+.git/
+.gitignore
+.gitattributes
+
+# Otros
+*.log
+.DS_Store
+*.db
+*.sqlite3
+__snapshots__/  # Si usas pruebas visuales
