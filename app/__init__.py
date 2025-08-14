@@ -11,7 +11,7 @@ def create_app():
     app = Flask(__name__)
 
     # Habilita CORS para todas las rutas (puedes limitar dominios si lo deseas)
-    CORS(app, origins=["https://mua-react.vercel.app/"])
+    CORS(app, origins=["https://mua-react.vercel.app"])
 
     # Configura claves desde entorno
     app.config["MAILERLITE_API_KEY"] = config("MAILERLITE_API_KEY", default="")
