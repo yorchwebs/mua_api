@@ -8,6 +8,13 @@ from app.routes import main_bp
 
 
 def create_app():
+    """Initialize the Flask application.
+
+    Initializes the Flask application, sets up CORS, configures API keys, and registers routes.
+
+    Returns:
+        Flask: The initialized Flask application.
+    """
     app = Flask(__name__)
 
     # Habilita CORS para todas las rutas (puedes limitar dominios si lo deseas)
@@ -15,7 +22,9 @@ def create_app():
 
     # Configura claves desde entorno
     app.config["MAILERLITE_API_KEY"] = config("MAILERLITE_API_KEY", default="")
-    app.config["MAILERLITE_GROUP_ID"] = config("MAILERLITE_GROUP_ID", default="")  # noqa E501
+    app.config["MAILERLITE_GROUP_ID"] = config(
+        "MAILERLITE_GROUP_ID", default=""
+    )  # noqa E501
 
     # Verifica que no falten las claves críticas
     if not app.config["MAILERLITE_API_KEY"]:

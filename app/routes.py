@@ -9,13 +9,24 @@ from app.schemas import SubscriptionSchema
 main_bp = Blueprint("main", __name__)
 
 
-@main_bp.route("/ping", methods=["GET"])
-def ping():
-    return jsonify({"message": "pong"})
-
-
 @main_bp.route("/subscribe", methods=["POST"])
 def subscribe():
+    """Subscribe a user to the mailing list
+
+    Args:
+        email (str): The email address of the user to subscribe.
+        groups (list): The groups to which the user should be added.
+
+    Returns:
+        dict: A dictionary containing the status of the subscription.
+
+
+    Example:
+        {
+            "email": "example@example.com",
+            "groups": [123456789]
+        }
+    """
     try:
         json_data = request.get_json()
         data = SubscriptionSchema(**json_data)
