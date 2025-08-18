@@ -101,11 +101,13 @@ def contact():
     phone = data.get("phone")
     message = data.get("message")
 
-    if not all([name, email, phone, message]):
+    if not all([name, email, message]):
         return jsonify({"error": "Missing fields"}), 400
 
+    phone_text = phone if phone else "No proporcionado"
+
     try:
-        body = f"Nuevo mensaje de: {name}\n\n Mis medios de contacto: {email}, {phone}\n\n{message}"  # noqa: E501
+        body = f"Nuevo mensaje de: {name}\n\n Mis medios de contacto: {email}, {phone_text}\n\n{message}"  # noqa: E501
 
         msg = MIMEText(body, "plain")
         msg["Subject"] = "Nuevo mensaje de contacto"
