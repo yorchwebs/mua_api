@@ -2,7 +2,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Flask Version](https://img.shields.io/badge/flask-3.1-blue.svg)](https://flask.palletsprojects.com/)
-[![Postman Docs](https://documenter.getpostman.com/view/33534242/2sB3WtrySp)
+[![Postman Docs](https://img.shields.io/badge/docs-Postman-orange?logo=postman)](https://documenter.getpostman.com/view/33534242/2sB3WtrySp)
 
 A simple and robust Flask API to handle newsletter subscriptions with MailerLite and contact form submissions via SMTP.
 
