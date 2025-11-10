@@ -28,12 +28,14 @@ CORS is currently enabled for all origins (`*`) to simplify local development.
 from flask_cors import CORS
 
 CORS(app, origins=["https://yourfrontenddomain.com"])
+```
+
 This helps prevent unauthorized cross-origin requests and improves your API’s security.
 
-Getting Started
+### Getting Started
+
 Prerequisites
 Python 3.12+
-```
 
 Docker (optional, for containerized deployment)
 
@@ -44,7 +46,7 @@ Docker (optional, for containerized deployment)
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/mua-api.git
+git clone https://github.com/yorchwebs/mua-api.git
 cd mua-api
 ```
 
