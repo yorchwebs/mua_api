@@ -5,7 +5,7 @@ FROM python:3.12.11-alpine3.22
 WORKDIR /app
 
 # Copia dependencias primero (para aprovechar caché)
-COPY requirements.txt .
+COPY requirements-prod.txt .
 
 # Instala dependencias
 RUN pip install --no-cache-dir -r requirements.txt
