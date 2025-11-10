@@ -27,6 +27,7 @@ def client():
 
 def test_subscribe_validation(client):
     """Si faltan campos debe devolver 422
+
     Args:
         client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
 
@@ -34,7 +35,7 @@ def test_subscribe_validation(client):
         None: Verifica que se maneja la validación y devuelve un error 422.
 
     Example:
-        {            "email": "correo@correo.com",
+        {   "email": "correo@correo.com",
             "error": "Invalid input",
             "details": {"email": ["Invalid email address"]}
         }
@@ -78,6 +79,7 @@ def test_subscribe_success(mock_post, client):
 @patch("app.routes.requests.post")
 def test_subscribe_failure(mock_post, client):
     """Caso de error: falla la suscripción
+
     Args:
         mock_post (MagicMock): Mock de la función requests.post para simular
         una respuesta de error de la API de MailerLite.
