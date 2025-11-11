@@ -26,20 +26,22 @@ def client():
 
 
 def test_subscribe_validation(client):
-    """Si faltan campos debe devolver 422
+    """If any required fields are missing, it should return a 422 error.
 
     Args:
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que se maneja la validación y devuelve un error 422.
+        None: Verifies that validation is handled correctly and a 422 error is returned.
 
     Example:
-        {   "email": "correo@correo.com",
+        {
+            "email": "correo@correo.com",
             "error": "Invalid input",
             "details": {"email": ["Invalid email address"]}
         }
     """
+
     res = client.post("/subscribe", json={})
     assert res.status_code == 422
     assert "error" in res.get_json()
@@ -47,23 +49,24 @@ def test_subscribe_validation(client):
 
 @patch("app.routes.requests.post")
 def test_subscribe_success(mock_post, client):
-    """Caso de éxito: suscripción exitosa
+    """Success case: successful subscription
 
     Args:
-        mock_post (MagicMock): Mock de la función requests.post para simular
-        una respuesta exitosa de la API de MailerLite.
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        mock_post (MagicMock): Mock of the requests.post function to simulate
+            a successful response from the MailerLite API.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que la suscripción se maneja correctamente y devuelve un
-        mensaje de éxito.
+        None: Verifies that the subscription is handled correctly and a success
+            message is returned.
 
     Example:
         {
             "email": "correo@correo.com",
-            "message": "Suscripción exitosa"
+            "message": "Successful subscription"
         }
     """
+
     mock_response = Mock()
     mock_response.status_code = 201
     mock_response.json.return_value = {"message": "OK"}
@@ -78,23 +81,25 @@ def test_subscribe_success(mock_post, client):
 
 @patch("app.routes.requests.post")
 def test_subscribe_failure(mock_post, client):
-    """Caso de error: falla la suscripción
+    """Error case: subscription failed
 
     Args:
-        mock_post (MagicMock): Mock de la función requests.post para simular
-        una respuesta de error de la API de MailerLite.
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        mock_post (MagicMock): Mock of the requests.post function to simulate
+            an error response from the MailerLite API.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que se maneja el error y devuelve un mensaje de error.
+        None: Verifies that the error is handled correctly and an error message
+            is returned.
 
     Example:
         {
-            "email": "correo@ocrreo.com",
-            "error": "Error al suscribirse",
+            "email": "correo@correo.com",
+            "error": "Subscription failed",
             "details": {"message": "Subscriber already exists"}
         }
     """
+
     mock_response = Mock()
     mock_response.status_code = 400
     mock_response.json.return_value = {"message": "Subscriber already exists"}
@@ -111,14 +116,14 @@ def test_subscribe_failure(mock_post, client):
 
 
 def test_subscribe_validation_error(client):
-    """Si el email no es válido, debe devolver 422
+    """If the email is invalid, it should return a 422 error.
 
     Args:
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que se maneja la validación del email y devuelve un
-        error 422.
+        None: Verifies that email validation is handled correctly and a 422 error
+            is returned.
 
     Example:
         {
@@ -127,6 +132,7 @@ def test_subscribe_validation_error(client):
             "details": {"email": ["Invalid email address"]}
         }
     """
+
     response = client.post("/subscribe", json={"email": "not-an-email"})
 
     assert response.status_code == 422
@@ -139,7 +145,7 @@ def test_subscribe_validation_error(client):
 
 
 def test_contact_missing_fields(client):
-    """Si faltan campos debe devolver 400"""
+    """If any required fields are missing, it should return a 400 error."""
     res = client.post("/contact", json={})
     assert res.status_code == 400
     body = res.get_json()
@@ -149,25 +155,26 @@ def test_contact_missing_fields(client):
 
 @patch("app.routes.smtplib.SMTP")
 def test_contact_success(mock_smtp, client):
-    """Caso de éxito: email enviado correctamente
+    """Success case: email sent successfully
 
     Args:
-        mock_smtp (MagicMock): Mock del cliente SMTP para simular
-        el envío de correo.
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        mock_smtp (MagicMock): Mock of the SMTP client to simulate
+            email sending.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que el correo se envía correctamente y devuelve un
-        mensaje de éxito.
+        None: Verifies that the email is sent correctly and a success
+            message is returned.
 
     Example:
         {
             "name": "Yorch",
             "email": "email@email.com",
             "phone": "123456789",
-            "message": "Hola, este es un test"
+            "message": "Hello, this is a test"
         }
     """
+
     mock_server = MagicMock()
     mock_smtp.return_value.__enter__.return_value = mock_server
 
@@ -207,23 +214,23 @@ def test_contact_success(mock_smtp, client):
 
 @patch("app.routes.smtplib.SMTP", side_effect=Exception("SMTP failure"))
 def test_contact_failure(mock_smtp, client):
-    """Caso de error: falla el envío de correo
+    """Error case: email sending failed
 
     Args:
-        mock_smtp (MagicMock): Mock del cliente SMTP para simular una falla
-        en el envío de correo.
-        client (FlaskClient): Cliente de prueba para hacer peticiones a la API.
+        mock_smtp (MagicMock): Mock of the SMTP client to simulate a failure
+            during email sending.
+        client (FlaskClient): Test client used to send requests to the API.
 
     Returns:
-        None: Verifica que se maneja la excepción y devuelve un mensaje de
-        error.
+        None: Verifies that the exception is handled correctly and an error
+            message is returned.
 
     Example:
         {
             "name": "Yorch",
             "email": "correo@correo.com",
             "phone": "123456789",
-            "message": "Falla de prueba"
+            "message": "Test failure"
         }
     """
     payload = {
